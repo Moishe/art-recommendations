@@ -50,7 +50,8 @@ def index():
         # Parse the JSON response
         try:
             recommendations = json.loads(openai_response)
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as e:
+            print("Error parsing OpenAI response: %s", e)
             recommendations = []
 
         return render_template('index.html', inspirations=inspirations, recommendations=recommendations)
