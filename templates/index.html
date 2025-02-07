@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Project Inspirations</title>
+</head>
+<body>
+    <h1>Enter Your Inspirations</h1>
+    <form method="post">
+        <div id="inspiration-list">
+            <input type="text" name="inspiration" placeholder="Inspiration 1"><br>
+            <input type="text" name="inspiration" placeholder="Inspiration 2"><br>
+            <input type="text" name="inspiration" placeholder="Inspiration 3"><br>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if inspirations %}
+        <h2>Your Inspirations:</h2>
+        <ul>
+            {% for inspiration in inspirations %}
+                <li>{{ inspiration }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
