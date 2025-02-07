@@ -1,4 +1,6 @@
-import openai
+import json
+import os
+from openai import OpenAI
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
@@ -20,20 +22,21 @@ def index():
         prompt += f"\nMy themes are {project_themes}"
 
         # Make a request to OpenAI
-        openai.api_key = "YOUR_OPENAI_API_KEY"
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
+        client = OpenAI()
+        completion = client.chat.completions.create(
+            model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "developer", "content": "You are a helpful assistant."},
                 {"role": "user", "content": prompt}
-            ],
-            max_tokens=150
+            ]
         )
 
         # Extract the response text
-        openai_response = response.choices[0].text.strip()
+        print(completion)
+        openai_response = completion.choices[0].message.content
 
         return render_template('index.html', inspirations=inspirations, openai_response=openai_response)
+
     return render_template('index.html', inspirations=[])
 
 if __name__ == '__main__':
