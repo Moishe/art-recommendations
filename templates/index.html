@@ -28,5 +28,9 @@
             {% endfor %}
         </ul>
     {% endif %}
+    {% if openai_response %}
+        <h2>OpenAI Recommendations:</h2>
+        <p>{{ openai_response }}</p>
+    {% endif %}
 </body>
 </html>
