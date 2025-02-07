@@ -21,9 +21,12 @@ def index():
 
         # Make a request to OpenAI
         openai.api_key = "YOUR_OPENAI_API_KEY"
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt}
+            ],
             max_tokens=150
         )
 
