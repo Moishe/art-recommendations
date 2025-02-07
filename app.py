@@ -19,7 +19,19 @@ def index():
         )
         for inspiration in inspirations:
             prompt += f"* {inspiration}\n"
-        prompt += f"\nMy themes are {project_themes}"
+        prompt += (
+            f"\nMy themes are {project_themes}\n\n"
+            "Please provide the recommendations in the following JSON format:\n"
+            "[\n"
+            "  {\n"
+            "    \"artist\": \"Artist Name\",\n"
+            "    \"description\": \"Description of the artist or work\",\n"
+            "    \"image\": \"URL to a representative image\",\n"
+            "    \"link\": \"URL to their work\"\n"
+            "  },\n"
+            "  ...\n"
+            "]"
+        )
 
         # Make a request to OpenAI
         client = OpenAI()
@@ -35,7 +47,13 @@ def index():
         print(completion)
         openai_response = completion.choices[0].message.content
 
-        return render_template('index.html', inspirations=inspirations, openai_response=openai_response)
+        # Parse the JSON response
+        try:
+            recommendations = json.loads(openai_response)
+        except json.JSONDecodeError:
+            recommendations = []
+
+        return render_template('index.html', inspirations=inspirations, recommendations=recommendations)
 
     return render_template('index.html', inspirations=[])
 
