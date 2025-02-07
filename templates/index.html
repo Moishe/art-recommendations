@@ -34,9 +34,29 @@
         {% endfor %}
     </ul>
     {% endif %}
-    {% if openai_response %}
-    <h2>OpenAI Recommendations:</h2>
-    <p>{{ openai_response }}</p>
+    {% if recommendations %}
+        <h2>OpenAI Recommendations:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Artist</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for recommendation in recommendations %}
+                <tr>
+                    <td>{{ recommendation.artist }}</td>
+                    <td>{{ recommendation.description }}</td>
+                    <td><img src="{{ recommendation.image }}" alt="Image of {{ recommendation.artist }}" width="100"></td>
+                    <td><a href="{{ recommendation.link }}" target="_blank">View Work</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
     {% endif %}
 </body>
 
