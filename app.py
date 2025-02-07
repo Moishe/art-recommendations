@@ -30,7 +30,8 @@ def index():
             "    \"link\": \"URL to their work\"\n"
             "  },\n"
             "  ...\n"
-            "]"
+            "]\n\n"
+            "Please enclose the JSON response in triple backticks (```)."
         )
 
         # Make a request to OpenAI
@@ -47,11 +48,18 @@ def index():
         print(completion)
         openai_response = completion.choices[0].message.content
 
-        # Parse the JSON response
-        try:
-            recommendations = json.loads(openai_response)
-        except json.JSONDecodeError as e:
-            print("Error parsing OpenAI response: %s", e)
+        # Extract JSON from the response
+        json_start = openai_response.find("```")
+        json_end = openai_response.rfind("```")
+        if json_start != -1 and json_end != -1:
+            json_content = openai_response[json_start + 3:json_end].strip()
+            try:
+                recommendations = json.loads(json_content)
+            except json.JSONDecodeError as e:
+                print("Error parsing JSON content: %s", e)
+                recommendations = []
+        else:
+            print("No JSON content found in the response.")
             recommendations = []
 
         return render_template('index.html', inspirations=inspirations, recommendations=recommendations)
