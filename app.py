@@ -3,7 +3,7 @@ import os
 from loguru import logger
 from openai import OpenAI
 from flask import Flask, render_template, request
-from get_image import get_representative_image
+from goose3 import Goose
 
 app = Flask(__name__)
 
@@ -72,9 +72,10 @@ def index():
             print("\n\n" + json_content + "\n\n")
             try:
                 recommendations = json.loads(json_content)
+                g = Goose()
                 for recommendation in recommendations:
-                    image_url = get_representative_image(recommendation['link'])
-                    recommendation['image'] = image_url
+                    article = g.extract(url=recommendation['link'])
+                    recommendation['image'] = article.top_image.src if article.top_image else None
             except json.JSONDecodeError as e:
                 print("Error parsing JSON content: %s", e)
                 recommendations = []
