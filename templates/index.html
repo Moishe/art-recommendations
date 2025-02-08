@@ -50,7 +50,7 @@
             <tr>
                 <td>{{ recommendation.artist }}</td>
                 <td>{{ recommendation.description }}</td>
-                <td><img src="{{ recommendation.image }}" alt="Image of {{ recommendation.artist }}" width="100"></td>
+                <td><a href="{{ recommendation.image }}" target="_blank">View Image</a></td>
                 <td><a href="{{ recommendation.link }}" target="_blank">View Work</a></td>
             </tr>
             {% endfor %}
