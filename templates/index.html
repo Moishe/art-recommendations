@@ -36,26 +36,13 @@
     {% endif %}
     {% if recommendations %}
     <h2>OpenAI Recommendations:</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Artist</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for recommendation in recommendations %}
-            <tr>
-                <td>{{ recommendation.artist }}</td>
-                <td>{{ recommendation.description }}</td>
-                <td><a href="{{ recommendation.image }}" target="_blank">View Image</a></td>
-                <td><a href="{{ recommendation.link }}" target="_blank">View Work</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% for recommendation in recommendations %}
+    <div>
+        <iframe src="{{ recommendation.link }}" width="600" height="400"></iframe>
+        <p><strong>Artist:</strong> {{ recommendation.artist }}</p>
+        <p><strong>Description:</strong> {{ recommendation.description }}</p>
+    </div>
+    {% endfor %}
     {% endif %}
 </body>
 
