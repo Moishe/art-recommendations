@@ -1,5 +1,6 @@
 import json
 import os
+from loguru import logger
 from openai import OpenAI
 from flask import Flask, render_template, request
 
@@ -13,8 +14,8 @@ def index():
 
         # Construct the prompt
         prompt = (
-            "Hey, I have a list of inspirations for a photo project I'm working on. "
-            "Can you recommend 5 or 6 more artists or specific pieces of work that might be similar? "
+            "I have a list of inspirations for a photo project I'm working on. "
+            "Can you recommend 5 or 6 more artists or and specific pieces of their work that might be similar? "
             "Here's my list:\n"
         )
         for inspiration in inspirations:
@@ -25,13 +26,13 @@ def index():
             "[\n"
             "  {\n"
             "    \"artist\": \"Artist Name\",\n"
-            "    \"description\": \"Description of the artist or work\",\n"
-            "    \"image\": \"URL to a representative image\",\n"
-            "    \"link\": \"URL to their work\"\n"
+            "    \"description\": \"Description of the artist\",\n"
+            "    \"link\": \"URL to their website, if they have one, or (in descending order of preference) a book of their work, a book about their work, a gallery page about them, or a wikipedia page about them.\"\n"
             "  },\n"
             "  ...\n"
             "]\n\n"
-            "Please enclose the JSON response in triple backticks (```)."
+            "Please enclose the JSON response in triple backticks (```).\n"
+            "Be sure that the representative image URLs are correct and up to date and can be loaded right now."
         )
 
         # Check if the response is cached
@@ -45,7 +46,7 @@ def index():
             completion = client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
-                    {"role": "developer", "content": "You are a helpful assistant."},
+                    {"role": "developer", "content": "You are an expert art historian, with deep knowledge of many artists, both mainstream and esoteric, including who they studied with and the themes of their work. Your goal is to help an artist find more inspiration for their art, given their current inspirations. You always provide images that are available on the internet at the time you respond to the prompt."},
                     {"role": "user", "content": prompt}
                 ]
             )
@@ -57,11 +58,16 @@ def index():
             with open(cache_file, "w") as file:
                 file.write(openai_response)
 
+        if openai_response is None:
+            logger.error("No response from OpenAI.")
+            return render_template('index.html', inspirations=inspirations)
+
         # Extract JSON from the response
-        json_start = openai_response.find("```json\n")
+        START_TOKEN = '```json\n'
+        json_start = openai_response.find(START_TOKEN)
         json_end = openai_response.rfind("```")
         if json_start != -1 and json_end != -1:
-            json_content = openai_response[json_start + 8:json_end].strip()
+            json_content = openai_response[json_start + len(START_TOKEN):json_end].strip()
             print("\n\n" + json_content + "\n\n")
             try:
                 recommendations = json.loads(json_content)
