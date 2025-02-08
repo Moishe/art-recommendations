@@ -49,10 +49,11 @@ def index():
         openai_response = completion.choices[0].message.content
 
         # Extract JSON from the response
-        json_start = openai_response.find("```")
+        json_start = openai_response.find("```json\n")
         json_end = openai_response.rfind("```")
         if json_start != -1 and json_end != -1:
-            json_content = openai_response[json_start + 3:json_end].strip()
+            json_content = openai_response[json_start + 8:json_end].strip()
+            print("\n\n" + json_content + "\n\n")
             try:
                 recommendations = json.loads(json_content)
             except json.JSONDecodeError as e:
