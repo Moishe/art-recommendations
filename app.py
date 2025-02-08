@@ -34,19 +34,28 @@ def index():
             "Please enclose the JSON response in triple backticks (```)."
         )
 
-        # Make a request to OpenAI
-        client = OpenAI()
-        completion = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "developer", "content": "You are a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ]
-        )
+        # Check if the response is cached
+        cache_file = "openai-response.txt"
+        if os.path.exists(cache_file):
+            with open(cache_file, "r") as file:
+                openai_response = file.read()
+        else:
+            # Make a request to OpenAI
+            client = OpenAI()
+            completion = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "developer", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
 
-        # Extract the response text
-        print(completion)
-        openai_response = completion.choices[0].message.content
+            # Extract the response text
+            openai_response = completion.choices[0].message.content
+
+            # Cache the response
+            with open(cache_file, "w") as file:
+                file.write(openai_response)
 
         # Extract JSON from the response
         json_start = openai_response.find("```json\n")
