@@ -105,6 +105,7 @@
         {% for recommendation in recommendations %}
         <div class="carousel-item">
             <iframe src="{{ recommendation.link }}"></iframe>
+            <p><a href="{{ recommendation.link }}" target="_blank">Visit Website</a></p>
             <p><strong>Artist:</strong> {{ recommendation.artist }}</p>
             <p><strong>Description:</strong> {{ recommendation.description }}</p>
         </div>
