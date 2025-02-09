@@ -58,39 +58,19 @@ def flask_app():
             # Generate a unique ID for both prompt and response
             unique_id = int(time.time())
 
-            # Save the prompt to a file
-            prompt_file_path = f"shots/prompt-{unique_id}.txt"
-            with open(prompt_file_path, "w") as prompt_file:
-                prompt_file.write(prompt)
             cache_file = "openai-response.txt"
-            SHOULD_CACHE = False
-            if SHOULD_CACHE and os.path.exists(cache_file):
-                with open(cache_file, "r") as file:
-                    openai_response = file.read()
-            else:
-                # Make a request to OpenAI
-                client = OpenAI()
-                completion = client.chat.completions.create(
-                    model="gpt-4o",
-                    messages=[
-                        {"role": "developer", "content": "You are an expert art historian, with deep knowledge of many artists, both mainstream and esoteric, including who they studied with and the themes of their work. Your goal is to help an artist find more inspiration for their art, given their current inspirations. You always provide images that are available on the internet at the time you respond to the prompt."},
-                        {"role": "user", "content": prompt}
-                    ]
-                )
+            # Make a request to OpenAI
+            client = OpenAI()
+            completion = client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {"role": "developer", "content": "You are an expert art historian, with deep knowledge of many artists, both mainstream and esoteric, including who they studied with and the themes of their work. Your goal is to help an artist find more inspiration for their art, given their current inspirations. You always provide images that are available on the internet at the time you respond to the prompt."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
 
-                # Extract the response text
-                openai_response = completion.choices[0].message.content
-
-                # Cache the response
-                with open(cache_file, "w") as file:
-                    file.write(openai_response)
-
-            # Save the response to a file
-            response_file_path = f"shots/response-{unique_id}.txt"
-            with open(response_file_path, "w") as response_file:
-                response_file.write(openai_response)
-                logger.error("No response from OpenAI.")
-                return render_template('index.html', inspirations=inspirations, project_themes=project_themes)
+            # Extract the response text
+            openai_response = completion.choices[0].message.content
 
             # Extract JSON from the response
             START_TOKEN = '```json\n'
