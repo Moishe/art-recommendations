@@ -114,6 +114,10 @@
             <textarea id="project-themes" name="project-themes" rows="10" cols="50" maxlength="3000"
                 placeholder="Enter the general themes of your project (up to 500 words)">{{ project_themes }}</textarea>
         </div>
+        <div>
+            <input type="checkbox" id="debug" name="debug">
+            <label for="debug">Show Debug Information</label>
+        </div>
         <div style="margin-top: 10px;">
             <button type="submit">Submit</button>
         </div>
@@ -142,6 +146,13 @@
         {{ recommendation.description }}</p>
     </div>
     {% endfor %}
+    {% endif %}
+    {% if debug %}
+    <h2>Debug Information:</h2>
+    <h3>Raw Prompt:</h3>
+    <code>{{ raw_prompt }}</code>
+    <h3>Raw Response:</h3>
+    <code>{{ raw_response }}</code>
     {% endif %}
 </body>
 

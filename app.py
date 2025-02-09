@@ -26,6 +26,9 @@ def flask_app():
             inspirations = request.form.getlist('inspiration')
             project_themes = request.form.get('project-themes', '')
 
+            # Check if debug is enabled
+            debug = 'debug' in request.form
+
             # Construct the prompt
             prompt = (
                 "I have a list of inspirations for a photo project I'm working on. "
@@ -105,7 +108,7 @@ def flask_app():
                 print("No JSON content found in the response.")
                 recommendations = []
 
-            return render_template('index.html', inspirations=inspirations, recommendations=recommendations, project_themes=project_themes)
+            return render_template('index.html', inspirations=inspirations, recommendations=recommendations, project_themes=project_themes, debug=debug, raw_prompt=prompt, raw_response=openai_response)
 
         return render_template('index.html', inspirations=[])
 
