@@ -97,7 +97,7 @@
 
 <body>
     <h1>Enter Your Inspirations</h1>
-    <form method="post">
+    <form method="post" id="inspirationForm">
         <div id="inspiration-list">
             <input type="text" name="inspiration" placeholder="Inspiration 1"><br>
             <input type="text" name="inspiration" placeholder="Inspiration 2"><br>
@@ -114,6 +114,12 @@
             <button type="submit">Submit</button>
         </div>
     </form>
+    <p id="statusIndicator" style="display: none;">Waiting...</p>
+    <script>
+        document.getElementById('inspirationForm').onsubmit = function() {
+            document.getElementById('statusIndicator').style.display = 'block';
+        };
+    </script>
 
     {% if inspirations %}
     <h2>Your Inspirations:</h2>
