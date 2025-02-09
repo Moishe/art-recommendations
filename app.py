@@ -7,9 +7,10 @@ import modal
 
 stub = modal.Stub("my-flask-app")
 
+app = Flask(__name__)
+
 @stub.function()
 def run_flask_app():
-    app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
