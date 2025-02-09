@@ -37,7 +37,8 @@ def index():
 
         # Check if the response is cached
         cache_file = "openai-response.txt"
-        if os.path.exists(cache_file):
+        SHOULD_CACHE = False
+        if SHOULD_CACHE and os.path.exists(cache_file):
             with open(cache_file, "r") as file:
                 openai_response = file.read()
         else:
