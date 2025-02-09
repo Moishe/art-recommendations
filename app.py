@@ -48,7 +48,13 @@ def flask_app():
                 "Be sure that the representative image URLs are correct and up to date and can be loaded right now."
             )
 
-            # Check if the response is cached
+            # Ensure the "shots" directory exists
+            os.makedirs("shots", exist_ok=True)
+
+            # Save the prompt to a file
+            prompt_id = f"shots/prompt-{int(time.time())}.txt"
+            with open(prompt_id, "w") as prompt_file:
+                prompt_file.write(prompt)
             cache_file = "openai-response.txt"
             SHOULD_CACHE = False
             if SHOULD_CACHE and os.path.exists(cache_file):
@@ -72,7 +78,10 @@ def flask_app():
                 with open(cache_file, "w") as file:
                     file.write(openai_response)
 
-            if openai_response is None:
+            # Save the response to a file
+            response_id = f"shots/response-{int(time.time())}.txt"
+            with open(response_id, "w") as response_file:
+                response_file.write(openai_response)
                 logger.error("No response from OpenAI.")
                 return render_template('index.html', inspirations=inspirations, project_themes=project_themes)
 
