@@ -112,15 +112,13 @@
     {% endif %}
     {% if recommendations %}
     <h2>OpenAI Recommendations:</h2>
-    <div class="recommendations-list">
-        {% for recommendation in recommendations %}
-        <div class="recommendation-item">
-            <p><strong>Artist:</strong> <a href="{{ recommendation.link }}" target="_blank">{{ recommendation.artist
-                    }}</a></p>
-            {{ recommendation.description }}</p>
-        </div>
-        {% endfor %}
+    {% for recommendation in recommendations %}
+    <div class="recommendation-item">
+        <p><strong>Artist:</strong> <a href="{{ recommendation.link }}" target="_blank">{{ recommendation.artist
+                }}</a></p>
+        {{ recommendation.description }}</p>
     </div>
+    {% endfor %}
     {% endif %}
 </body>
 
