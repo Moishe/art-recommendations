@@ -3,8 +3,13 @@ import os
 from loguru import logger
 from openai import OpenAI
 from flask import Flask, render_template, request
+import modal
 
-app = Flask(__name__)
+stub = modal.Stub("my-flask-app")
+
+@stub.function()
+def run_flask_app():
+    app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -84,4 +89,5 @@ def index():
     return render_template('index.html', inspirations=[])
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    with stub.run():
+        run_flask_app()
