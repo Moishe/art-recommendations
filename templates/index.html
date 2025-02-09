@@ -88,7 +88,7 @@
             const newInput = document.createElement('input');
             newInput.type = 'text';
             newInput.name = 'inspiration';
-            newInput.placeholder = `Inspiration ${inspirationList.children.length + 1}`;
+            newInput.placeholder = `Inspiration ${inspirationList.querySelectorAll('input[type="text"]').length + 1}`;
             newInput.style.display = 'block';
             newInput.style.marginBottom = '10px';
             inspirationList.appendChild(newInput);
