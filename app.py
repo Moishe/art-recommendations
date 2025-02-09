@@ -2,7 +2,7 @@ import json
 import os
 import time
 from loguru import logger
-from openai_client import get_openai_recommendations
+from openai_client import create_prompt, get_openai_recommendations
 from flask import Flask, render_template, request
 import modal
 
@@ -29,34 +29,7 @@ def flask_app():
             # Check if debug is enabled
             debug = 'debug' in request.form
 
-            # Construct the prompt
-            prompt = (
-                "I have a list of inspirations for a photo project I'm working on. "
-                "Can you recommend 5 or 6 more artists or and specific pieces of their work that might be similar? "
-                "Here's my list:\n"
-            )
-            for inspiration in inspirations:
-                prompt += f"* {inspiration}\n"
-            prompt += (
-                f"\nMy themes are {project_themes}\n\n"
-                "Please provide the recommendations in the following JSON format:\n"
-                "[\n"
-                "  {\n"
-                "    \"artist\": \"Artist Name\",\n"
-                "    \"description\": \"Description of the artist\",\n"
-                "    \"link\": \"URL to their website, if they have one, or (in descending order of preference) a book of their work, a book about their work, a gallery page about them, or a wikipedia page about them.\"\n"
-                "  },\n"
-                "  ...\n"
-                "]\n\n"
-                "Please enclose the JSON response in triple backticks (```).\n"
-                "Be sure that the representative image URLs are correct and up to date and can be loaded right now."
-            )
-
-            # Ensure the "shots" directory exists
-            os.makedirs("shots", exist_ok=True)
-
-            # Generate a unique ID for both prompt and response
-            unique_id = int(time.time())
+            prompt = create_prompt(inspirations, project_themes)
 
             openai_response, recommendations = get_openai_recommendations(prompt)
 
