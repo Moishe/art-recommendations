@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 @stub.function()
 def run_flask_app():
+    app.run(host="0.0.0.0", port=5000)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
