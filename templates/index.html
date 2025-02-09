@@ -99,9 +99,13 @@
     <h1>Enter Your Inspirations</h1>
     <form method="post" id="inspirationForm">
         <div id="inspiration-list">
+            {% for inspiration in inspirations %}
+            <input type="text" name="inspiration" value="{{ inspiration }}" placeholder="Inspiration {{ loop.index }}"><br>
+            {% else %}
             <input type="text" name="inspiration" placeholder="Inspiration 1"><br>
             <input type="text" name="inspiration" placeholder="Inspiration 2"><br>
             <input type="text" name="inspiration" placeholder="Inspiration 3"><br>
+            {% endfor %}
         </div>
         <button type="button" onclick="addInspiration()" style="margin-bottom: 20px;">Add More Inspiration</button>
         </div>
