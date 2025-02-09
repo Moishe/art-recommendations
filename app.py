@@ -60,7 +60,7 @@ def index():
 
         if openai_response is None:
             logger.error("No response from OpenAI.")
-            return render_template('index.html', inspirations=inspirations)
+            return render_template('index.html', inspirations=inspirations, project_themes=project_themes)
 
         # Extract JSON from the response
         START_TOKEN = '```json\n'
@@ -78,7 +78,7 @@ def index():
             print("No JSON content found in the response.")
             recommendations = []
 
-        return render_template('index.html', inspirations=inspirations, recommendations=recommendations)
+        return render_template('index.html', inspirations=inspirations, recommendations=recommendations, project_themes=project_themes)
 
     return render_template('index.html', inspirations=[])
 
