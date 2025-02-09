@@ -107,12 +107,15 @@
                 value="The movie 'The Green Knight' directed by David Lowery"><br>
         </div>
         <button type="button" onclick="addInspiration()">Add More Inspiration</button>
+        </div>
+        <div>
             <label for="project-themes">Project Themes:</label><br>
             <textarea id="project-themes" name="project-themes" rows="10" cols="50" maxlength="3000"
                 placeholder="Enter the general themes of your project (up to 500 words)">{{ project_themes }}</textarea>
         </div>
-        
-        <button type="submit" style="margin-top: 10px;">Submit</button>
+        <div style="margin-top: 10px;">
+            <button type="submit">Submit</button>
+        </div>
     </form>
 
     {% if inspirations %}
