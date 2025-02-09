@@ -49,17 +49,14 @@
             background-color: #3a3a6c;
         }
 
-        .carousel {
-            display: flex;
-            overflow-x: auto;
-            gap: 20px;
+        .recommendations-list {
+            max-height: 400px;
+            overflow-y: auto;
             padding: 10px 0;
         }
 
-        .carousel-item {
-            flex: 0 0 auto;
-            width: calc(100% - 40px);
-            margin-right: 20px;
+        .recommendation-item {
+            margin-bottom: 20px;
         }
 
         iframe {
@@ -103,9 +100,9 @@
     {% endif %}
     {% if recommendations %}
     <h2>OpenAI Recommendations:</h2>
-    <div class="carousel">
+    <div class="recommendations-list">
         {% for recommendation in recommendations %}
-        <div class="carousel-item">
+        <div class="recommendation-item">
             <p><a href="{{ recommendation.link }}" target="_blank">Visit Website</a></p>
             <p><strong>Artist:</strong> {{ recommendation.artist }}</p>
             <p><strong>Description:</strong> {{ recommendation.description }}</p>
