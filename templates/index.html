@@ -103,8 +103,9 @@
     <div class="recommendations-list">
         {% for recommendation in recommendations %}
         <div class="recommendation-item">
-            <p><strong>Artist:</strong> <a href="{{ recommendation.link }}" target="_blank">{{ recommendation.artist }}</a></p>
-            <p><strong>Description:</strong> {{ recommendation.description }}</p>
+            <p><strong>Artist:</strong> <a href="{{ recommendation.link }}" target="_blank">{{ recommendation.artist
+                    }}</a></p>
+            {{ recommendation.description }}</p>
         </div>
         {% endfor %}
     </div>
