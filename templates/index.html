@@ -82,6 +82,18 @@
             margin: 10px 0;
         }
     </style>
+    <script>
+        function addInspiration() {
+            const inspirationList = document.getElementById('inspiration-list');
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'inspiration';
+            newInput.placeholder = `Inspiration ${inspirationList.children.length + 1}`;
+            newInput.style.display = 'block';
+            newInput.style.marginBottom = '10px';
+            inspirationList.appendChild(newInput);
+        }
+    </script>
 
 <body>
     <h1>Enter Your Inspirations</h1>
@@ -94,7 +106,7 @@
             <input type="text" name="inspiration" placeholder="Inspiration 3"
                 value="The movie 'The Green Knight' directed by David Lowery"><br>
         </div>
-        <div>
+        <button type="button" onclick="addInspiration()">Add More Inspiration</button>
             <label for="project-themes">Project Themes:</label><br>
             <textarea id="project-themes" name="project-themes" rows="10" cols="50" maxlength="3000"
                 placeholder="Enter the general themes of your project (up to 500 words)">{{ project_themes }}</textarea>
