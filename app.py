@@ -52,9 +52,12 @@ def flask_app():
             # Ensure the "shots" directory exists
             os.makedirs("shots", exist_ok=True)
 
+            # Generate a unique ID for both prompt and response
+            unique_id = int(time.time())
+
             # Save the prompt to a file
-            prompt_id = f"shots/prompt-{int(time.time())}.txt"
-            with open(prompt_id, "w") as prompt_file:
+            prompt_file_path = f"shots/prompt-{unique_id}.txt"
+            with open(prompt_file_path, "w") as prompt_file:
                 prompt_file.write(prompt)
             cache_file = "openai-response.txt"
             SHOULD_CACHE = False
@@ -80,8 +83,8 @@ def flask_app():
                     file.write(openai_response)
 
             # Save the response to a file
-            response_id = f"shots/response-{int(time.time())}.txt"
-            with open(response_id, "w") as response_file:
+            response_file_path = f"shots/response-{unique_id}.txt"
+            with open(response_file_path, "w") as response_file:
                 response_file.write(openai_response)
                 logger.error("No response from OpenAI.")
                 return render_template('index.html', inspirations=inspirations, project_themes=project_themes)
