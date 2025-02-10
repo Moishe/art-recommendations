@@ -22,8 +22,19 @@
             background-color: #fff;
         }
 
-        .recommendation-item p {
-            margin: 5px 0;
+        .recommendation-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .recommendation-item img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 20px;
+            border-radius: 4px;
+        }
+
+        margin: 5px 0;
         }
 
         h1,
@@ -100,7 +111,8 @@
     <form method="post" id="inspirationForm">
         <div id="inspiration-list">
             {% for inspiration in inspirations %}
-            <input type="text" name="inspiration" value="{{ inspiration }}" placeholder="Inspiration {{ loop.index }}"><br>
+            <input type="text" name="inspiration" value="{{ inspiration }}"
+                placeholder="Inspiration {{ loop.index }}"><br>
             {% else %}
             <input type="text" name="inspiration" placeholder="Inspiration 1"><br>
             <input type="text" name="inspiration" placeholder="Inspiration 2"><br>
@@ -124,7 +136,7 @@
     </form>
     <p id="statusIndicator" style="display: none;">Waiting...</p>
     <script>
-        document.getElementById('inspirationForm').onsubmit = function() {
+        document.getElementById('inspirationForm').onsubmit = function () {
             document.getElementById('statusIndicator').style.display = 'block';
         };
     </script>
@@ -141,9 +153,16 @@
     <h2>OpenAI Recommendations:</h2>
     {% for recommendation in recommendations %}
     <div class="recommendation-item">
-        <p><strong>Artist:</strong> <a href="{{ recommendation.link }}" target="_blank">{{ recommendation.artist
-                }}</a></p>
-        {{ recommendation.description }}</p>
+        {% if recommendation.image_url %}
+        <a href="{{ recommendation.image_url }}" target="_blank">
+            <img src="{{ recommendation.image_url }}" alt="Image of {{ recommendation.artist }}">
+        </a>
+        {% endif %}
+        <div>
+            <p><strong>Artist:</strong> <a href="{{ recommendation.link }}" target="_blank">{{ recommendation.artist
+                    }}</a></p>
+            <p>{{ recommendation.description }}</p>
+        </div>
     </div>
     {% endfor %}
     {% endif %}
